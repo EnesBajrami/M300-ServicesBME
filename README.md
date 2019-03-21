@@ -18,10 +18,11 @@
     - [05.1 - UFW - Firwall](#04.1---UFW-Firewall)
     - [05.2 - Reverse-Proxy](#04.1---Reverse-Proxy)
     - [05.3 - SSH-Tunnel](#04.1---SSH-Tunnel)
-    - [05.4 - Webserver per HTTPS sichern](#04.1---Webserver per HTTPS sichern)
+    - [05.3 - SSH-Public-Key](#04.2---SSH-Public-Key)
+    - [05.4 - Webserver per HTTPS sichern](#04.1---Webserver-per-HTTPS-sichern)
   - [06 - Wissenzuwachs](#04.1---Wissenzuwachs)
   - [07 - Reflektion](#04.1---Reflektion)
-    [08 - EigeneIdeen](#01---Eigene Ideen)
+  - [08 - Eigene Ideen](#08---Eigene-Ideen)
 
 
 
@@ -183,6 +184,23 @@ Die Weiterleitungen sind z.B. in sites-enabled/001-reverseproxy.conf eingetragen
 Eine SSH-Verbindung kann mit dem Server augebaut werden indem man den Befehl vagrant ssh (vm-name) eingibt. So kann man direkt 
 vom Git-Bash eine Verbindung mit der VM erstellen. Ausserdem habe ich noch im Vagrant-File eine Firewall Rule angegeben, dass eine SSH-Verbindung möglich ist. 
 
+Wenn der SSH-Key erstellt worden ist und im GIT-Hub eingesetzt ist, kann man mit dieswen Befehlen veränderte oder neue Dokumente raufladen. 
+
+Wichtig: Die Befehle müssen innerhalb des lokalen Repositorys ausgeführt werden!
+
+$  cd Pfad\zu\meinem\Repository    # Zum lokalen GitHub-Repository wechseln
+
+$  git status                      # Geänderte Datei(en) werden rot aufgelistet
+$  git add -A                      # Fügt alle Dateien zum "Upload" hinzu
+$  git status                      # Der Status ist nun grün > Dateien sind Upload-bereit (Optional) 
+$  git commit -m "Mein Kommentar"  # Upload wird "commited" > Kommentar zu Dokumentationszwecken ist dafür notwendig
+$  git status                      # Dateien werden nun als "zum Pushen bereit" angezeigt
+$  git push                        #Upload bzw. Push wird durchgeführt
+
+### 05.4 - SSH-Public-Key
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCVcN5ysBADdVtMjNjJaW72yIROJ/htFIfHjyyJlHnafMq+SQEclpXXXbebCYUpBoDJdBOla5/CLd0EDkFg5BuxX0dh4f3KDQ3AiKivdBY5mFY0jcUxksqSlA+9+u7wzDbxUjyaCaZnxLWTiKkTOoMBMbbu/e6cIupOyOqoR2wYcIerQLcroL7rvHvnKt8jLe9WaG26IPRmwtIHkc8hkiOOXWeEDeEHQATTkckbXVUOYOVB75l/hLXhxo74EjPG3wtwWJ0c/iQ5Pi/sok8mO4i79V7wa9wNBhuVBsyjsGuFuY72hhnc6QzN7Twgdi1V6Dw2/R6BxprHumgnUsn7zp7ZKN8pjDTaFHwz47nx92vHIBMKZdHHmbSgrddbo7farEysAwSoF344xfVs6ERHKA7FXgX5P9c1dOeF6futdpR9XiSheVNjDRqGVyoK0QUcX5pP4LJj1x8ZR10IacX7kNV75fj6EE5hC1ShHLkf/G1GiGZImim1rdY3nQSkbrNohAYZc85dGr3Qg3DRhUSLozTy6G6F0LeoQwOM8CiUpniOhW5hTfNxJXxvoOXUxkr8V2+FWiJ2qsh15/wJblkeNnbYOhJKji7GpXYfcL3Ul49MWyVeFhPplucx148iyG42NIyU0XeUgCnvzVpBmRC+nblhdypGGGOoWn5ZZNW4KADR+Q== enesbajrami@hotmail.com
+
 
 ### 05.4 - Webserver per HTTPS sichern
 
@@ -295,10 +313,10 @@ Im nächsten Schritt wird eine Gruppe mit inklusvie Benutzer mit Passwort erstel
 sudo groupadd myadmin
 #User erstellen
 sudo useradd admin -g myadmin -m -s /bin/bash
-sudo useradd test -g myadmin -m -s /bin/bash
+sudo useradd bme -g myadmin -m -s /bin/bash
 #Password festlegen
 sudo chpasswd <<<admin:admin
-sudo chpasswd <<<test:test -->
+sudo chpasswd <<<bme:bme -->
 
 
 Bei nächsten Schritt wird der DHCP Server installiert. Das Paket lautet: ISC-DHCP-SERVER.
@@ -313,43 +331,43 @@ Nach der Installation von DHCp-Server muss man die Konfiguration anpassen. Das K
 
 Der Domainname lautet Standardmässig example.org und will neu labor.local umändern.
 
-#Domainanme konfigurieren
+## Domainanme konfigurieren
 sudo sed -i 's/example.org/labor.local/g' /etc/dhcp/dhcpd.conf
 
 Der DNS wird nun auf 8.8.8.8 (Google DNS) konfiguriert.
 
-#DNS konfigurieren
+## DNS konfigurieren
 sudo sed -i 's/ns2.labor.local/8.8.8.8/g' /etc/dhcp/dhcpd.conf
 
 Im Bereich beim Scope hat folgende Parameter:
 
-    Subnet --> 192.168.6.0/24
-    Range --> 192.168.6.100 - 130
-    Gateway --> 192.168.6.1
+    Subnet --> 192.168.20.0/24
+    Range --> 192.168.20.100 - 150
+    Gateway --> 192.168.20.1
 
-#DHCP Autorisierung aktiviert
+## DHCP Autorisierung aktiviert
 sudo sed -i 's/#authoritative/authoritative/g' /etc/dhcp/dhcpd.conf
-#DHCP Subnetz & Maske konfigurieren
-sudo sed -i '$asubnet 192.168.6.0 netmask 255.255.255.0 {' /etc/dhcp/dhcpd.conf
-#DHCP Range konfigurieren
-sudo sed -i '$arange 192.168.6.100 192.168.6.130;' /etc/dhcp/dhcpd.conf
-#DHCP Gateway konfigurieren
-sudo sed -i '$aoption routers 192.168.6.1;' /etc/dhcp/dhcpd.conf
+## DHCP Subnetz & Maske konfigurieren
+sudo sed -i '$asubnet 192.168.20.0 netmask 255.255.255.0 {' /etc/dhcp/dhcpd.conf
+## DHCP Range konfigurieren
+sudo sed -i '$arange 192.168.20.100 192.168.20.150;' /etc/dhcp/dhcpd.conf
+## DHCP Gateway konfigurieren
+sudo sed -i '$aoption routers 192.168.20.1;' /etc/dhcp/dhcpd.conf
 sudo sed -i '$a}' /etc/dhcp/dhcpd.conf
 
 Nach der Änderung des Konfigurationsfile wird der DHCP Service neu gestartet.
 
-#DHCP Server neustarten
+## DHCP Server neustarten
 sudo service isc-dhcp-server restart
 
 Die Tastaturlayout muss man noch auf Deutsch Schweiz anpassen.
 
-#Tastaturlayout anpassen
+## Tastaturlayout anpassen
 sudo sed -i 's/XKBLAYOUT="us"/XKBLAYOUT="ch"/g' /etc/default/locale
 
 Am Ende wird noch eine lokale Firewall installiert und anschliessend auch konfiguriert. Dabei öffnen man den Port 22 um via SSH darauf zuzugreifen. INFO-INPUT SSH Port 22 | TELNET Port 23
 
-#Local Firewall installieren
+## Local Firewall installieren
 sudo apt-get -y install ufw gufw 
 sudo ufw allow from 10.0.2.2 to any port 22
 sudo ufw --force enable    
@@ -358,21 +376,21 @@ Nun ist die DHCP-Part abgeschlossen. Man kann jetzt Clients VM erstellen und mit
 
 
 
-##FTP-Server
+## FTP-Server
 Die FTP VM hat folgende Spezifikationen (Die Änderungen kann man im Vagrant-File vornehmen):
 
-    IP: 192.168.6.6
+    IP: 192.168.20.6
     Hostname: ftp
-    RAM: 1024 MB
+    RAM: 512 MB
     VM Box: Ubuntu
 
 config.vm.define "ftp" do |ftp|
   ftp.vm.box = "ubuntu/xenial64"
   ftp.vm.hostname = "ftp"
-  ftp.vm.network "private_network", ip: "192.168.6.6"
+  ftp.vm.network "private_network", ip: "192.168.20.6"
   ftp.vm.network "forwarded_port", guest:3306, host:3306, auto_correct: true
   ftp.vm.provider "virtualbox" do |vb|
-	 vb.memory = "1024"  
+	 vb.memory = "512"  
 end
 
 Der erstes Schritt ist erneut die Paketverzeichnis zu akualisieren.
@@ -381,7 +399,7 @@ sudo apt-get update
 
 Bei nächsten Schritt wird der FTP Server installiert. Das Paket lautet: pure-ftpd
 
-#FTP Server installieren
+## FTP Server installieren
 sudo apt-get -y install pure-ftpd-common pure-ftpd
 
 Nach der Installation kann ich die FTP-Server konfigurieren. Bei meinem Fall sieht es so aus:
@@ -392,18 +410,18 @@ sudo pure-pw useradd samjoy -u ftpuser -g ftpgroup -d /home/pubftp/samjoy -N 10
 
 Nach der Änderung wird der FTP Service neu gestartet.
 
-#FTP Server neustarten
+## FTP Server neustarten
 sudo service pure-ftpd-common pure-ftpd restart
-#sudo /home/pubftp/samjoy restart
+## sudo /home/pubftp/samjoy restart
 
 Die Tastaturlayout muss man noch auf Deutsch Schweiz anpassen.
 
-#Tastaturlayout anpassen
+## Tastaturlayout anpassen
 sudo sed -i 's/XKBLAYOUT="us"/XKBLAYOUT="ch"/g' /etc/default/locale
 
 Am Ende wird noch eine lokale Firewall installiert und anschliessend auch konfiguriert. Dabei öffnen man den Port 22 um via SSH darauf zuzugreifen. INFO-INPUT SSH Port 22 | TELNET Port 23
 
-#Local Firewall installieren
+## Local Firewall installieren
 sudo apt-get -y install ufw gufw 
 sudo ufw allow from 10.0.2.2 to any port 22
 sudo ufw --force enable    
