@@ -92,7 +92,7 @@ Aber ich bin mir jetzt sehr wohl bewusst für was die einzelnen Softwares für e
     !    +--------------------+          +---------------------+    !
     !    ! Web Server         !          ! Datenbank Server    !    !       
     !    ! Host: webserver01  !          ! Host: database01    !    !
-    !    ! IP: 192.168.10.51  ! <------> ! IP: 192.168.10.50   !    !
+    !    ! IP: 192.168.10.101 ! <------> ! IP: 192.168.10.100  !    !
     !    ! Port: 443          !          ! Port 3306           !    !
     !    ! Nat: -             !          ! Nat: -              !    !
     !    +--------------------+          +---------------------+    !
