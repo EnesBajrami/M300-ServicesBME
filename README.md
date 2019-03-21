@@ -245,7 +245,8 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCVcN5ysBADdVtMjNjJaW72yIROJ/htFIfHjyyJlHna
     # Apache Server neustarten
     sudo service apache2 restart
 
-
+### Sicherheitsmassnahmen
+Die Sicherheitsmassnahmen sind ïn diesem Dokument verteilt und alles genaustens dokumentiert. Bis Zum-SSH Tunnel, Private-Key, Benutzergruppe und Rechte alles ist dokumentiert. Auch die divesen lokalen Firewall-Regeln. 
 
 ### 06 - Wissenszuwachs
 
@@ -259,12 +260,14 @@ Bei der Virtualisierung war mein Vorwissen schon recht gut, da ich schon bereits
 Vagrant war für mich Komplett neuland. Anfangs habe ich noch nichts vestanden, aber mit der Zeit wurde mir immer mehr bewusst für was es genau gebraucht wird und wie vielfältig diese Software ist. Bin sehr erstaunt, was man alles mit Vagrant in kurzer Zeit erstellen kann. Ich habe mir sogar vorgenommen Zuhause eine Umgebung komplett mit Vagrantfiles zu erstellen, da es mich sehr begeistert hat. 
 
 **Versionverwaltung/Git**
+Auch hier garkeine Erfahrung, doch habe schnell dazu gelernt und finde es sehr gut, da dort alles abgespeichert wird und nie verloren gehen kann. Anfangs fand ich es schwierig alles zu konfigurieren doch mit der Zeit ging das dann noch. 
 
 
 **Markdown**
 Auch hier war Markdown für mich komplett neuland, bin aber damit sehr gut zurecht gekommen. Ich habe schnell dazu gelernt und wusste genau wie ich die Hashtags einsetzen kann. Anfangs habe ich mir alles komplett im OneNote aufgeschrieben und diese dann im Markdown kopiert, was auch kein problem dargestellt hat. 
 
 **Systemsicherheit**
+Da ich selber schon diverse Module hatte mit den Systemsicherheiten, weiss ich genau worauf es hier ankommt. 
 
 ### 07 - Reflektion
 Die LB01 verlief im Grossen ganzen sehr gut. Meiner Meinung nach hatten wir für die LB01 zu wenig Zeit, da die meisten von uns noch nicht alles genau verstanden hat wie Vagrant überhaupt funktioniert, welche Zusammenhang es hatte usw. Darum war ich sehr im Stress, da ich auch schauen musste das meine Umgebung überhaupt funktioniert. Hatte viele Probleme, da sich auch VirtualBox anfangs nciht funkutionierte und musste deshalb immer wieder neu installieren und somit auch viel zeit verloren ging. Ausserdem fand ich noch schwierig ein VagrantFile komplett selbst zu erstellen eine grosse Herausforedung, da es für mich komplett neuland war. Es kam mir so vor wie als würde ein Applikationsentwickler mir einen Auftrag erstellt eine Applikation zu entwickeln mit Java und das in einer Woche. 
