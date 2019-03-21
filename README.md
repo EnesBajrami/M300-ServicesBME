@@ -146,6 +146,15 @@ Zugriff testen
     $ curl -f 192.168.10.101
     $ curl -f 192.168.10.100:3306
 
+## Funktionsweise-Testen
+Um den Webserver testen zu können geben Sie einfach im Browser http://localhost:8080/ dann werden sie direkt weitergeleitet im apache server. 
+
+Um den Database testen zu können geben Sie einfach im http://localhost:8080/adminer.php?server=192.168.10.101&username=root dann kommen sie direkt zur Anmeldung der Database. 
+
+Um die Funktionsweise vom DHCP-Server zu testen musst du einfach eine vm erstellen mit der gleichen netzwerkkarte wie der DHCP-Server und Einstellungen ändern unter DHCP. Dann erhählt diese VM eine IP vom ersetllten DHCP-Server. 
+
+
+
 ### 05.2 - Reverse-Proxy
 
     Installation Dazu müssen folgende Module installiert werden:

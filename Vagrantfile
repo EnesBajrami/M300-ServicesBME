@@ -33,6 +33,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   	web.vm.synced_folder ".", "/var/www/html"  
 	web.vm.provision "shell", inline: <<-SHELL
 		sudo apt-get update
+		sudo apt-get install ufw -y
+		sudo ufw allow from 10.0.2.2 to any port 22
+		sudo ufw allow 80/tcp
+		sudo ufw --force enable
+		sudo apt-get install libapache2-mod-proxy-html -y
+		sudo apt-get install libxml2-dev -y
+		a2enmod proxy
+		a2enmod proxy_html
+		a2enmod proxy_http
+		sed -i '$aServerName localhost' /etc/apache2/apache2.conf
+		service apache2 restart
+		cd /etc/apache2/sites-enabled
+		wget https://pastebin.com/raw/GbjFC2ii
+		cp GbjFC2ii 001-reverseproxy.conf
 		sudo apt-get -y install debconf-utils apache2 nmap
 		sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password 1234'
 		sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password 1234'
